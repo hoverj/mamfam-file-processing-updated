@@ -1,0 +1,7 @@
+MamFam/*
+settings.json
+*.pyc
+
+sample_data/*
+output/*
+.DS_Store

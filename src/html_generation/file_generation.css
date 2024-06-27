@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+@page horizontal_page {
+    size: landscape;
+}
+
+header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.file_header {
+    display: inline-block;
+    width: 30%;
+}
+
+.horizontal {
+    page: horizontal_page;
+}
+
+.center {
+    text-align: center;
+    flex-grow: 1;
+    margin-right: auto;
+    font-weight: bold;
+    font-size: 32px;
+}
+
+.right {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.left{
+    text-align: left;
+}
+
+#image {
+    margin-left: 20px;
+}
+
+#details {
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#details p {
+    margin: 5px 0;
+}
+
+#table-section {
+    margin-top: 20px;
+    text-align: left;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+tr {
+page-break-inside: avoid;
+}
+.table-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
