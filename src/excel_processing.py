@@ -106,10 +106,13 @@ def add_participant_excel_to_org(
     partipant_dict.pop("Name")
     money_total = 0
     item_total = 0
+    profit_total = 0
     for sku, item_cnt in partipant_dict.items():
         item_total += item_cnt
         money_total += item_cnt * ITEM_COSTS[sku].price
-
+        profit_total += (
+            item_cnt * ITEM_COSTS[sku].percent_profit * ITEM_COSTS[sku].price
+        )
     partipant = organization.primary_divisions[primary_div][secondary_div][
         participant_name
     ]
@@ -123,6 +126,7 @@ def add_participant_excel_to_org(
     partipant.quick_pull = dict(Counter(partipant.quick_pull) + Counter(partipant_dict))
     partipant.brochure_total.money = money_total
     partipant.brochure_total.item_cnt = item_total
+    partipant.brochure_total.profit_generated = profit_total
 
 
 def iterate_primary_div(

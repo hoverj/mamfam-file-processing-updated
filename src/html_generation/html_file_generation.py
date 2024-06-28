@@ -32,13 +32,22 @@ def _update_org_pulling(participant: Participant, org_pulling: OrgWriteUp):
     # Add the current participants totals to the org total
     org_pulling.ship_to_home_total.item_cnt += participant.ship_to_home_total.item_cnt
     org_pulling.ship_to_home_total.money += participant.ship_to_home_total.money
+    org_pulling.ship_to_home_total.profit_generated += (
+        participant.ship_to_home_total.profit_generated
+    )
 
     # Add the current participants totals to the org total
     org_pulling.ship_to_org_total.item_cnt += participant.ship_to_org_total.item_cnt
     org_pulling.ship_to_org_total.money += participant.ship_to_org_total.money
+    org_pulling.ship_to_org_total.profit_generated += (
+        participant.ship_to_org_total.profit_generated
+    )
 
     org_pulling.brochure_total.money += participant.brochure_total.money
     org_pulling.brochure_total.item_cnt += participant.brochure_total.item_cnt
+    org_pulling.brochure_total.profit_generated += (
+        participant.brochure_total.profit_generated
+    )
 
     temp_dict = org_pulling.quick_pull
     new_dict = dict(Counter(temp_dict) + Counter(participant.quick_pull))
@@ -198,6 +207,14 @@ def _get_total_money_from_participant(participant: Participant):
         participant.ship_to_home_total.money
         + participant.ship_to_org_total.money
         + participant.brochure_total.money
+    )
+
+
+def _get_total_profit_from_participant(participant: Participant):
+    return (
+        participant.ship_to_home_total.profit_generated
+        + participant.ship_to_org_total.profit_generated
+        + participant.brochure_total.profit_generated
     )
 
 
@@ -401,10 +418,13 @@ def iterate_primary_divs(organization: Organization, org_pulling: OrgWriteUp):
 def organization_student_writeup(organization: Organization, org_write_up: OrgWriteUp):
     organization_total_money = 0
     organization_total_items = 0
+    organization_total_profit = 0
     primary_total_money = 0
     primary_total_item = 0
+    primary_total_profit = 0
     secondary_total_money = 0
     secondary_total_item = 0
+    secondary_total_profit = 0
 
     participant_table = ""
     secondary_div_table = ""
@@ -436,9 +456,11 @@ def organization_student_writeup(organization: Organization, org_write_up: OrgWr
             for partcipant_name, part_orders in second_ref.items():
                 part_money = _get_total_money_from_participant(part_orders)
                 part_item = _get_total_items_from_participant(part_orders)
+                part_profit = _get_total_profit_from_participant(part_orders)
 
                 secondary_total_item += part_item
                 secondary_total_money += part_money
+                secondary_total_profit += part_profit
                 participant_table += f"""
                 <tr>
                 <td></td>
@@ -452,7 +474,7 @@ def organization_student_writeup(organization: Organization, org_write_up: OrgWr
                 <td>${part_orders.brochure_total.money}</td>
                 <td>{int(part_item)}</td>
                 <td>${"{:.2f}".format(part_money)}</td>
-                <td>${"{:.2f}".format(part_money * 0.4)}</td>
+                <td>${"{:.2f}".format(part_profit)}</td>
                 </tr> 
                 """
             # End of participant for loop, add to second div
@@ -469,12 +491,13 @@ def organization_student_writeup(organization: Organization, org_write_up: OrgWr
                 <td></td>
                 <td>{int(secondary_total_item)}</td>
                 <td>${"{:.2f}".format(secondary_total_money)}</td>
-                <td>${"{:.2f}".format(secondary_total_money * 0.4)}</td>
+                <td>${"{:.2f}".format(secondary_total_profit)}</td>
                 </tr> 
             """
             secondary_div_table += participant_table
             primary_total_item += secondary_total_item
             primary_total_money += secondary_total_money
+            primary_total_profit += secondary_total_profit
         # Secondary Div is Done
         primary_div_table += f"""
             <tr>
@@ -489,12 +512,13 @@ def organization_student_writeup(organization: Organization, org_write_up: OrgWr
                 <td></td>
                 <td>{int(primary_total_item)}</td>
                 <td>${"{:.2f}".format(primary_total_money)}</td>
-                <td>${"{:.2f}".format(primary_total_money * 0.4)}</td>
+                <td>${"{:.2f}".format(primary_total_profit)}</td>
                 </tr> 
         """
         primary_div_table += secondary_div_table
         organization_total_items += primary_total_item
         organization_total_money += primary_total_money
+        organization_total_profit += primary_total_profit
 
     # Now All loops should be done
     org_writeup += primary_div_table
@@ -512,7 +536,7 @@ def organization_student_writeup(organization: Organization, org_write_up: OrgWr
                 <td>${org_write_up.brochure_total.money}</td>
                 <td>{int(organization_total_items)}</td>
                 <td>${"{:.2f}".format(organization_total_money)}</td>
-                <td>${"{:.2f}".format(organization_total_money*0.4)}</td>
+                <td>${"{:.2f}".format(organization_total_profit)}</td>
                 </tr> 
     """
 

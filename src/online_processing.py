@@ -114,6 +114,7 @@ def iterate_products(
     customer_name = online_details.customer_name
     order_total = 0
     item_total = 0
+    profit_total = 0
     product_dict = {}
     if customer_name not in participant_orders:
         participant_orders[customer_name] = []
@@ -129,6 +130,7 @@ def iterate_products(
         )
         sku = int(product["sku"])
         item_price = product["item_price"]
+        profit = ITEM_COSTS[sku].percent_profit * qty * item_price
         product = Product(
             sku=sku,
             item_name=name,
@@ -138,13 +140,13 @@ def iterate_products(
         )
         item_total += qty
         order_total += qty * item_price
-
+        profit_total += profit
         if sku in product_dict:
             product_dict[sku] += qty
         else:
             product_dict[sku] = qty
         (participant_orders[customer_name]).append(product)
-    return order_total, item_total, product_dict
+    return order_total, item_total, profit_total, product_dict
 
 
 def add_order_to_participant(
@@ -176,6 +178,7 @@ def add_order_to_participant(
         )
         totals_reference.money += return_totals[0]
         totals_reference.item_cnt += return_totals[1]
+        totals_reference.profit_generated += return_totals[2]
 
     elif order_type == "Org":
         participant_orders = organization.primary_divisions[pri_div][sec_div][
@@ -191,17 +194,18 @@ def add_order_to_participant(
         )
         totals_reference.money += return_totals[0]
         totals_reference.item_cnt += return_totals[1]
+        totals_reference.profit_generated += return_totals[2]
         quick_pull = organization.primary_divisions[pri_div][sec_div][
             participant
         ].quick_pull
-        quick_pull = dict(Counter(quick_pull) + Counter(return_totals[2]))
+        quick_pull = dict(Counter(quick_pull) + Counter(return_totals[3]))
         organization.primary_divisions[pri_div][sec_div][
             participant
         ].quick_pull = quick_pull
 
     else:
         raise NameError("Unknown order type Error")
-    return Counter(return_totals[2])
+    return Counter(return_totals[3])
 
 
 def make_participant_entry(

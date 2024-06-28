@@ -20,7 +20,7 @@ class Product:
 
 @dataclass
 class OrderMethodTotals:
-    total_money: float
+    money: float
     profit_generated: float
     item_cnt: int
 
@@ -74,11 +74,11 @@ class OrgWriteUp:
 def initalize_participant():
     return Participant(
         ship_to_home={},
-        ship_to_home_total=OrderMethodTotals(0, 0),
+        ship_to_home_total=OrderMethodTotals(0, 0, 0),
         ship_to_org={},
-        ship_to_org_total=OrderMethodTotals(0, 0),
+        ship_to_org_total=OrderMethodTotals(0, 0, 0),
         brochure={},
-        brochure_total=OrderMethodTotals(0, 0),
+        brochure_total=OrderMethodTotals(0, 0, 0),
         quick_pull={},
     )
 
