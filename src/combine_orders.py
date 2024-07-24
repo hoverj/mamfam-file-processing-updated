@@ -69,7 +69,7 @@ def pretty_print(organization: Organization):
 
 
 if __name__ == "__main__":
-    organization = Organization("Victorville", {})
+    organization = Organization("GardenGrove", {})
     org_write_up: OrgWriteUp = OrgWriteUp(
         {},
         __initialize_item_dict(),
@@ -82,13 +82,13 @@ if __name__ == "__main__":
 
     # PC
     # excel_file = r"C:/Users/jeffb/OneDrive\Desktop/Projects/mam-fam-file-processing\sample_data/MultiplePrimary.xlsx"
-    excel_file = "../sample_data/Victorville/VVALL.xlsx"
-    online_file = "../sample_data/Victorville/Victorville.json"
+    excel_file = "../sample_data/Blackshear/Blackshear.xlsx"
+    online_file = "../sample_data/GardenGrove/GardenGrove.json"
     # MAC
     # excel_file = r"sample_data/MultiplePrimary.xlsx"
     # online_file = r"/Users/jeffreyhover/Desktop/Programs/mam-fam-file-processing/sample_data/Blackshear/Blackshear.json"
 
-    parse_excel(organization=organization, file=excel_file, org_write_up=org_write_up)
+    # parse_excel(organization=organization, file=excel_file, org_write_up=org_write_up)
     parse_online(organization=organization, file=online_file, org_write_up=org_write_up)
     # pretty_print(organization)
     create_detailed_files(organization, org_write_up)
