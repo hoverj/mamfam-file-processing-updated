@@ -304,7 +304,7 @@ def ship_to_org_order(
 def iterate_orders(organization: Organization, org_write_up: OrgWriteUp, dataframe):
     for _, line in dataframe.iterrows():
         online_details: OnlineLineDetails = online_line_parser(line)
-        if line["shipping_method_title"] == "Ship to Organization":
+        if line["shipping_method_title"] == "Ship to Organization" or line["shipping_method_title"] == "Ship to Organizaton":
             old_ship = Counter(org_write_up.ship_to_org)
             new_dict = (
                 ship_to_org_order(organization, online_details, line["products"])
